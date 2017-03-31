@@ -1,0 +1,2 @@
+class CastRole < ApplicationRecord
+end
