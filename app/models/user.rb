@@ -1,3 +1,7 @@
 class User < ApplicationRecord
-    has_many :reviews, :ratings, :comments, :seen_movies, :wished_movies
+    has_many :reviews
+    has_many :ratings
+    has_many :comments
+    has_many :seen_movies
+    has_many :wished_movies
 end
