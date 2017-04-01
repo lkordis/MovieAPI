@@ -10,7 +10,6 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
-    format.json {}
   end
 
   # GET /users/new
