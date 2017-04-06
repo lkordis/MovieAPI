@@ -5,5 +5,6 @@ class CreateWishedMovies < ActiveRecord::Migration[5.0]
       t.references :movie, index: true, foreign_key: { to_table: :movies }
       t.timestamps
     end
+    execute "ALTER TABLE wished_movies ADD PRIMARY KEY (user_id,movie_id);"
   end
 end

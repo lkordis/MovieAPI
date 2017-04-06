@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170330165722) do
+ActiveRecord::Schema.define(version: 20170406172201) do
 
   create_table "cast_roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "role"
@@ -25,20 +25,20 @@ ActiveRecord::Schema.define(version: 20170330165722) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "comments", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "comments", primary_key: ["user_id", "review_id"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.text     "text",       limit: 65535
-    t.integer  "user_id"
-    t.integer  "review_id"
+    t.integer  "user_id",                  null: false
+    t.integer  "review_id",                null: false
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
     t.index ["review_id"], name: "index_comments_on_review_id", using: :btree
     t.index ["user_id"], name: "index_comments_on_user_id", using: :btree
   end
 
-  create_table "credits", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "movie_id"
-    t.integer  "cast_id"
-    t.integer  "cast_role_id"
+  create_table "credits", primary_key: ["movie_id", "cast_id", "cast_role_id"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "movie_id",     null: false
+    t.integer  "cast_id",      null: false
+    t.integer  "cast_role_id", null: false
     t.string   "roleName"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
@@ -47,9 +47,9 @@ ActiveRecord::Schema.define(version: 20170330165722) do
     t.index ["movie_id"], name: "index_credits_on_movie_id", using: :btree
   end
 
-  create_table "friendships", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "userId1_id"
-    t.integer  "userId2_id"
+  create_table "friendships", primary_key: ["userId1_id", "userId2_id"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "userId1_id", null: false
+    t.integer  "userId2_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["userId1_id"], name: "index_friendships_on_userId1_id", using: :btree
@@ -62,9 +62,9 @@ ActiveRecord::Schema.define(version: 20170330165722) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "movie_genres", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "movie_id"
-    t.integer  "genre_id"
+  create_table "movie_genres", primary_key: ["genre_id", "movie_id"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "movie_id",   null: false
+    t.integer  "genre_id",   null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["genre_id"], name: "index_movie_genres_on_genre_id", using: :btree
@@ -77,10 +77,10 @@ ActiveRecord::Schema.define(version: 20170330165722) do
     t.datetime "updated_at",               null: false
   end
 
-  create_table "ratings", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "ratings", primary_key: ["user_id", "movie_id"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "rating"
-    t.integer  "user_id"
-    t.integer  "movie_id"
+    t.integer  "user_id",    null: false
+    t.integer  "movie_id",   null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["movie_id"], name: "index_ratings_on_movie_id", using: :btree
@@ -97,9 +97,9 @@ ActiveRecord::Schema.define(version: 20170330165722) do
     t.index ["user_id"], name: "index_reviews_on_user_id", using: :btree
   end
 
-  create_table "seen_movies", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "user_id"
-    t.integer  "movie_id"
+  create_table "seen_movies", primary_key: ["user_id", "movie_id"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id",    null: false
+    t.integer  "movie_id",   null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["movie_id"], name: "index_seen_movies_on_movie_id", using: :btree
@@ -110,14 +110,14 @@ ActiveRecord::Schema.define(version: 20170330165722) do
     t.string   "name"
     t.string   "lastName"
     t.string   "email"
-    t.string   "password"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "password_digest"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
-  create_table "wished_movies", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "user_id"
-    t.integer  "movie_id"
+  create_table "wished_movies", primary_key: ["user_id", "movie_id"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.integer  "user_id",    null: false
+    t.integer  "movie_id",   null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["movie_id"], name: "index_wished_movies_on_movie_id", using: :btree
