@@ -7,4 +7,12 @@ Rails.application.routes.draw do
   get    '/login',   to: 'sessions#new'
   post   '/login',   to: 'sessions#create'
   delete '/logout',  to: 'sessions#destroy'
+
+  get '/seen_movies', to: 'seen_movies#index'
+  post '/seen_movies', to: 'seen_movies#create'
+  delete '/seen_movies', to: 'seen_movies#destroy' 
+
+  get '/wished_movies', to: 'wished_movies#index'
+  post '/wished_movies', to: 'wished_movies#create'
+  delete '/wished_movies', to: 'wished_movies#destroy'
 end

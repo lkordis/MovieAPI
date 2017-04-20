@@ -1,4 +1,6 @@
 class SeenMovie < ApplicationRecord
-    has_many :users
-    has_many :movies
+    belongs_to :users
+    belongs_to :movies
+
+    self.primary_keys = :user_id, :movie_id
 end

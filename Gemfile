@@ -32,6 +32,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bcrypt', git: 'https://github.com/codahale/bcrypt-ruby.git', :require => 'bcrypt'
 
 gem 'rack-cors', :require => 'rack/cors'
+gem 'composite_primary_keys'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
