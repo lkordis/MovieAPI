@@ -5,6 +5,7 @@ class SeenMoviesController < ApplicationController
         respond_to do |format|
             if logged_in?
                 @user = current_user
+                puts @user.name
                 @seen_movies = SeenMovie.where(user_id: @user.id)
                 format.json { render json: @seen_movies }
             else

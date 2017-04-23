@@ -33,6 +33,8 @@ gem 'bcrypt', git: 'https://github.com/codahale/bcrypt-ruby.git', :require => 'b
 
 gem 'rack-cors', :require => 'rack/cors'
 gem 'composite_primary_keys'
+gem 'jwt'
+gem 'simple_command'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 

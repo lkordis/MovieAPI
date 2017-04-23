@@ -1,6 +1,9 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
   skip_before_filter :verify_authenticity_token
+  skip_before_action :authenticate_request 
+
+
 
   # GET /users
   # GET /users.json
@@ -30,9 +33,9 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        log_in @user
+        command = AuthenticateUser.call(params[:email], params[:password]) 
         format.html { redirect_to @user, notice: 'User was successfully created.' }
-        format.json { render json: @user }
+        format.json { render json: {user: @user, auth_token: command.result } }
       else
         format.html { render :new }
         format.json { render json: @user.errors, status: :unprocessable_entity }

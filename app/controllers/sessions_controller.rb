@@ -16,7 +16,6 @@ class SessionsController < ApplicationController
     if user && user.authenticate(params[:password])
       # Log the user in and redirect to the user's show page.
       log_in user
-      remember user
       respond_to do |format|
         format.json {render json: current_user}
       end
