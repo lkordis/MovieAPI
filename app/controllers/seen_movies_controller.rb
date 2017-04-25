@@ -37,6 +37,6 @@ class SeenMoviesController < ApplicationController
 
     private
         def seen_movies_params
-            params.permit(:title, :id)
+            params.permit(:title, :id, :poster_path)
         end
 end
