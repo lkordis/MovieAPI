@@ -5,8 +5,16 @@ class WishedMoviesController < ApplicationController
         respond_to do |format|
             if logged_in?
                 @user = current_user
+                puts @user.name
                 @wished_movies = WishedMovie.where(user_id: @user.id)
-                format.json { render json: @wished_movies }
+                @movies = Array.new
+
+                @wished_movies.each do |wished_movie|
+                    @movie = Movie.find(wished_movie.movie_id)
+                    @movies << @movie
+                end
+
+                format.json { render json: @movies }
             else
                 format.json { render json: nil, status: :unprocessable_entity }
             end
