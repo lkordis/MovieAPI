@@ -7,7 +7,14 @@ class SeenMoviesController < ApplicationController
                 @user = current_user
                 puts @user.name
                 @seen_movies = SeenMovie.where(user_id: @user.id)
-                format.json { render json: @seen_movies }
+                @movies = Array.new
+
+                @seen_movies.each do |seen_movie|
+                    @movie = Movie.find(seen_movie.movie_id)
+                    @movies << @movie
+                end
+
+                format.json { render json: @movies }
             else
                 format.json { render json: nil, status: :unprocessable_entity }
             end
