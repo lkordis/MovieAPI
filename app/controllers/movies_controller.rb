@@ -7,7 +7,20 @@ class MoviesController < ApplicationController
                 @user = current_user
                 @seen_movies = SeenMovie.where(user_id: @user.id)
                 @wished_movies = WishedMovie.where(user_id: @user.id)
-                @movies = @seen_movies | @wished_movies
+                @movies1 = Array.new
+                @movies2 = Array.new
+
+                @seen_movies.each do |seen_movie|
+                    @movie = Movie.find(seen_movie.movie_id)
+                    @movies1 << @movie
+                end
+
+                @wished_movies.each do |wished_movie|
+                    @movie = Movie.find(wished_movie.movie_id)
+                    @movies2 << @movie
+                end
+
+                @movies = @movies1 | @movies2
 
                 format.json {render json: @movies}
             else
