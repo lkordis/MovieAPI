@@ -13,4 +13,6 @@ Rails.application.routes.draw do
   delete '/wished_movies', to: 'wished_movies#destroy'
 
   post '/login', to: 'authentication#authenticate'
+
+  get '/user_movies', to: 'movies#user_movies'
 end
