@@ -24,7 +24,8 @@ class ReviewsController < ApplicationController
   # POST /reviews
   # POST /reviews.json
   def create
-    @review = Review.new(review_params)
+    @user = current_user
+    @review = Review.new(user_id: @user.id, text: params[:text], movie_id: params[:movie_id])
 
     respond_to do |format|
       if @review.save
@@ -64,6 +65,6 @@ class ReviewsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def review_params
-      params.permit(:user_id, :movie_id, :text)
+      params.permit(:movie_id, :text)
     end
 end
