@@ -25,6 +25,7 @@ class ReviewsController < ApplicationController
   # POST /reviews.json
   def create
     @user = current_user
+    @movie = Movie.find_or_create_by(id: params[:movie_id])
     @review = Review.new(user_id: @user.id, text: params[:text], movie_id: params[:movie_id])
 
     respond_to do |format|
