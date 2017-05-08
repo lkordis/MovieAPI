@@ -5,6 +5,9 @@ class ReviewsController < ApplicationController
   # GET /reviews.json
   def index
     @reviews = Review.all
+    respond_to do |format|
+      format.json { render json: @reviews }
+    end
   end
 
   # GET /reviews/1
