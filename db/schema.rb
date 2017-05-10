@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170425120204) do
+ActiveRecord::Schema.define(version: 20170510063413) do
 
   create_table "cast_roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "role"
@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(version: 20170425120204) do
     t.integer  "movie_id"
     t.datetime "created_at",               null: false
     t.datetime "updated_at",               null: false
+    t.string   "image_url"
     t.index ["movie_id"], name: "index_reviews_on_movie_id", using: :btree
     t.index ["user_id"], name: "index_reviews_on_user_id", using: :btree
   end
