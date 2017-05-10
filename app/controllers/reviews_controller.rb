@@ -24,15 +24,13 @@ class ReviewsController < ApplicationController
     end                
 
     @users = @users1 | @users2 
-    @users << @user         
+    @users << @user
+    puts @users      
     @reviews = Array.new
 
     @users.each do |user|
-      @review = Review.find_by(user_id: user.id)
-      if @review.nil?
-      else
-        @reviews << @review
-      end
+      @r = Review.where(user_id: user.id)      
+      @reviews << @r
     end
 
     respond_to do |format|
