@@ -12,6 +12,14 @@ class UsersController < ApplicationController
   # GET /users/1
   # GET /users/1.json
   def show
+    @user = set_user
+    respond_to do |format|
+      if @user
+        format.json { render json: @user }
+      else
+        format.json { render json: @user.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # GET /users/new
