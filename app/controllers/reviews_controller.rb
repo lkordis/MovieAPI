@@ -5,7 +5,33 @@ class ReviewsController < ApplicationController
   # GET /reviews
   # GET /reviews.json
   def index
-    @reviews = Review.all
+    @user = current_user
+    @friendships1 = Friendship.where(userId1_id: @user.id)
+    @friendships2 = Friendship.where(userId2_id: @user.id)
+
+    @users1 = Array.new
+    @users2 = Array.new
+    @users = Array.new
+
+    @friendships1.each do |friendship|
+      @u = User.find(friendship.userId2_id)
+      @users1 << @u
+    end
+
+    @friendships2.each do |friendship|
+      @u = User.find(friendship.userId1_id)
+      @users2 << @u
+    end                
+
+    @users = @users1 | @users2 
+    @users << @user         
+    @reviews = Array.new
+
+    @users.each do |user|
+      @review = Review.find_by(user_id: user.id)
+      @reviews << @review
+    end
+
     respond_to do |format|
       format.json { render json: @reviews }
     end
