@@ -16,4 +16,8 @@ Rails.application.routes.draw do
   post '/login', to: 'authentication#authenticate'
 
   get '/user_movies', to: 'movies#user_movies'
+
+  get '/followers', to: 'friendships#index'
+  get '/recommend_followers', to: 'friendships#recommend'
+  post '/followers', to: 'friendships#create'
 end
