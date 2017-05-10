@@ -1,5 +1,6 @@
 class ReviewsController < ApplicationController
   before_action :set_review, only: [:show, :edit, :update, :destroy]
+  skip_before_action :authenticate_request, only: [:show]
 
   # GET /reviews
   # GET /reviews.json
@@ -13,6 +14,14 @@ class ReviewsController < ApplicationController
   # GET /reviews/1
   # GET /reviews/1.json
   def show
+    @review = set_review
+    respond_to do |format|
+      if @review
+        format.json { render json: @review }
+      else
+        format.json { render json: @review.errors, status: :unprocessable_entity }
+      end
+    end
   end
 
   # GET /reviews/new
