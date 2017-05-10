@@ -30,7 +30,7 @@ class ReviewsController < ApplicationController
 
     @users.each do |user|
       @r = Review.where(user_id: user.id)      
-      @reviews | @r
+      @reviews |= @r
     end
 
     respond_to do |format|
