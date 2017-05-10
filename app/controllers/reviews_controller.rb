@@ -29,7 +29,10 @@ class ReviewsController < ApplicationController
 
     @users.each do |user|
       @review = Review.find_by(user_id: user.id)
-      @reviews << @review
+      if @review.nil?
+      else
+        @reviews << @review
+      end
     end
 
     respond_to do |format|
