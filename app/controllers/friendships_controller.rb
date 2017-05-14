@@ -43,7 +43,7 @@ class FriendshipsController < ApplicationController
 
                 @users.each do |user|
                     @common_movies = user_movies(user.id) & @my_movies
-                    if @common_movies.length > 3 && @recommended.length < 10
+                    if @common_movies.length > 3 && @recommended.length < 10 && user != @user
                         @recommended << user
                     end
                 end
