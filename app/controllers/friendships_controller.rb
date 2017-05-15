@@ -42,6 +42,7 @@ class FriendshipsController < ApplicationController
                 @recommended = Array.new
 
                 @friends = filter_friends(@user.id)
+                puts @friend[0].name
 
                 @users.each do |user|
                     @common_movies = user_movies(user.id) & @my_movies
