@@ -41,9 +41,11 @@ class FriendshipsController < ApplicationController
                 @users = User.all
                 @recommended = Array.new
 
+                @friends = filter_friends(@user.id)
+
                 @users.each do |user|
                     @common_movies = user_movies(user.id) & @my_movies
-                    if @common_movies.length > 3 && @recommended.length < 10 && user != @user
+                    if @common_movies.length > 3 && @recommended.length <= 10 && user != @user && !@friends.include?(user)
                         @recommended << user
                     end
                 end
@@ -82,6 +84,28 @@ class FriendshipsController < ApplicationController
     private
         def seen_movies_params
             params.permit(:user_id)
+        end
+
+        def filter_friends(user_id)
+            @friendships1 = Friendship.where(userId1_id: user_id)
+            @friendships2 = Friendship.where(userId2_id: user_id)
+                
+            @users1 = Array.new
+            @users2 = Array.new
+
+            @friendships1.each do |friendship|
+                @u = User.find(friendship.userId2_id)
+                @users1 << @u
+            end
+
+            @friendships2.each do |friendship|
+                @u = User.find(friendship.userId1_id)
+                @users2 << @u
+            end                
+
+            @users = @users1 | @users2
+
+            return @users
         end
 
         def user_movies(user_id)
