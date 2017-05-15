@@ -41,12 +41,9 @@ class FriendshipsController < ApplicationController
                 @users = User.all
                 @recommended = Array.new
 
-                @friends = filter_friends(@user.id)
-                puts @friend[0].name
-
                 @users.each do |user|
                     @common_movies = user_movies(user.id) & @my_movies
-                    if @common_movies.length > 3 && @recommended.length <= 10 && user != @user && @friends.exclude?(user)
+                    if @common_movies.length > 3 && @recommended.length < 10 && user != @user
                         @recommended << user
                     end
                 end
