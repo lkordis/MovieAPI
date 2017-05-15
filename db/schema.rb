@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170510063413) do
+ActiveRecord::Schema.define(version: 20170514083906) do
 
   create_table "cast_roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "role"
@@ -113,9 +113,10 @@ ActiveRecord::Schema.define(version: 20170510063413) do
     t.string   "lastName"
     t.string   "email"
     t.string   "password_digest"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at",                    null: false
+    t.datetime "updated_at",                    null: false
     t.string   "remember_digest"
+    t.text     "user_image",      limit: 65535
   end
 
   create_table "wished_movies", primary_key: ["user_id", "movie_id"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|

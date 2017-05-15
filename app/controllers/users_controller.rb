@@ -52,7 +52,7 @@ class UsersController < ApplicationController
   def update
     respond_to do |format|
       if @user.update(user_params)
-        format.json { render :show, status: :ok, location: @user }
+        format.json { render @user, status: :ok, location: @user }
       else
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
@@ -76,6 +76,6 @@ class UsersController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def user_params
-      params.permit(:name, :lastName, :email, :password)
+      params.permit(:name, :lastName, :email, :password, :user_image)
     end
 end
