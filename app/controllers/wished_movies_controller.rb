@@ -42,6 +42,31 @@ class WishedMoviesController < ApplicationController
         end
     end
 
+    def search
+        respond_to do |format|
+            if logged_in?
+                @user = current_user
+                @prefix = params[:query]
+                @movies = Movie.where("lower(title) like ?","#{@prefix.downcase}%")
+
+                @wished_movies = WishedMovie.where(user_id: @user.id)
+                @user_movies = Array.new
+
+                @wished_movies.each do |wished_movie|
+                    @movie = Movie.find(wished_movie.movie_id)
+
+                    if @movies.include? @movie
+                        @user_movies << @movie
+                    end
+                end
+
+                format.json { render json: @movies }
+            else
+                format.json { render json: nil, status: :unprocessable_entity }
+            end
+        end
+    end
+
     private
         def wished_movies_params
             params.permit(:title, :id, :poster_path)

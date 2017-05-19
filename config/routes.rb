@@ -7,11 +7,13 @@ Rails.application.routes.draw do
 
   get '/seen_movies', to: 'seen_movies#index'
   post '/seen_movies', to: 'seen_movies#create'
-  delete '/seen_movies', to: 'seen_movies#destroy' 
+  delete '/seen_movies', to: 'seen_movies#destroy'
+  get '/search/seen_movies', to: 'seen_movies#search'
 
   get '/wished_movies', to: 'wished_movies#index'
   post '/wished_movies', to: 'wished_movies#create'
   delete '/wished_movies', to: 'wished_movies#destroy'
+  get '/search/wished_movies', to: 'wished_movies#search'
 
   post '/login', to: 'authentication#authenticate'
 
@@ -20,4 +22,6 @@ Rails.application.routes.draw do
   get '/followers', to: 'friendships#index'
   get '/recommend_followers', to: 'friendships#recommend'
   post '/followers', to: 'friendships#create'
+  delete '/followers', to: 'friendships#destroy'
+
 end

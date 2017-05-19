@@ -1,6 +1,8 @@
 class SeenMoviesController < ApplicationController
     skip_before_filter :verify_authenticity_token
 
+    Tmdb::Api.key("0649ca7815178f68273bfb149e7716cc")
+
     def index
         respond_to do |format|
             if logged_in?
@@ -27,6 +29,11 @@ class SeenMoviesController < ApplicationController
                 @user = current_user
                 puts @user.id
                 @movie = Movie.find_or_create_by(seen_movies_params)
+
+                # @credits = Tmdb::Movie.credits(@movie.id)
+                # puts @credits['cast']
+                # puts @credits['crew']
+
                 puts @movie.id
                 @seen_movie = SeenMovie.new(user_id: @user.id, movie_id: @movie.id)
 
@@ -41,6 +48,32 @@ class SeenMoviesController < ApplicationController
             end
         end
     end
+
+    def search
+        respond_to do |format|
+            if logged_in?
+                @user = current_user
+                @prefix = params[:query]
+                @movies = Movie.where("lower(title) like ?","#{@prefix.downcase}%")
+
+                @seen_movies = SeenMovie.where(user_id: @user.id)
+                @user_movies = Array.new
+
+                @seen_movies.each do |seen_movie|
+                    @movie = Movie.find(seen_movie.movie_id)
+
+                    if @movies.include? @movie
+                        @user_movies << @movie
+                    end
+                end
+
+                format.json { render json: @movies }
+            else
+                format.json { render json: nil, status: :unprocessable_entity }
+            end
+        end
+    end
+    
 
     private
         def seen_movies_params
