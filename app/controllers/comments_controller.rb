@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
   # GET /comments
   # GET /comments.json
   def index
-    @comments = Comment.where(review_id: params[review_id])
+    @comments = Comment.where(review_id: params[:review_id])
 
     respond_to do |format|
       format.json { render json: @comments }
