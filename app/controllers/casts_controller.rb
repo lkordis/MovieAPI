@@ -8,7 +8,7 @@ class CastsController < ApplicationController
                 @user = current_user
                 @prefix = params[:query]
                 @names = Cast.where("lower(name) like ?","#{@prefix.downcase}%")
-                @lastNames = Cast.where("lower(lastName) like ?","#{@prefix.downcase}%")
+                @lastNames = Cast.where("lastName like ?","#{@prefix.downcase}%")
 
                 @seen_movies = SeenMovie.where(user_id: @user.id)
                 @wished_movies = WishedMovie.where(user_id: @user.id)
