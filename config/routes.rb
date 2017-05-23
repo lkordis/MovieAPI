@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   resources :reviews
   resources :comments
 
-  # get '/login',   to: 'sessions#new'
+  get '/login',   to: 'sessions#new'
 
   get '/seen_movies', to: 'seen_movies#index'
   post '/seen_movies', to: 'seen_movies#create'
