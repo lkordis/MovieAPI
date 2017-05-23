@@ -30,17 +30,33 @@ class SeenMoviesController < ApplicationController
                 puts @user.id
                 @movie = Movie.find_or_create_by(seen_movies_params)
 
-                # @credits = Tmdb::Movie.credits(@movie.id)
-                # puts @credits['cast']
-                # puts @credits['crew']
-
-                puts @movie.id
                 @seen_movie = SeenMovie.new(user_id: @user.id, movie_id: @movie.id)
 
                 if @seen_movie.save
                     format.json { render json: @seen_movie }
                 else
                     format.json { render json: @seen_movie.errors, status: :unprocessable_entity }
+                end
+
+                @credits = Tmdb::Movie.credits(@movie.id)
+                @actors = @credits['cast']
+
+                if !Credit.exists?(movie_id: @movie.id)
+                    @actors.each do |actor|
+                        @nameArray = actor['name'].split(" ")
+                        @name = @nameArray[0]
+                        @lastName = ""
+
+                        if @nameArray.length > 3
+                            @name += " " + @nameArray[1]
+                            @lastName = @nameArray[2]
+                        else
+                            @lastName = @nameArray[1]
+                        end
+
+                        @cast = Cast.find_or_create_by(id: actor['id'], name: @name, lastName: @lastName)
+                        Credit.create(movie_id: @movie.id, cast_id: @cast.id)
+                    end
                 end
                 
             else
@@ -67,7 +83,7 @@ class SeenMoviesController < ApplicationController
                     end
                 end
 
-                format.json { render json: @movies }
+                format.json { render json: @user_movies }
             else
                 format.json { render json: nil, status: :unprocessable_entity }
             end

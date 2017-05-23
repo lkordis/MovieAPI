@@ -25,4 +25,6 @@ Rails.application.routes.draw do
   post '/followers', to: 'friendships#create'
   delete '/followers', to: 'friendships#destroy'
 
+  get '/search/people', to: 'casts#search'
+
 end

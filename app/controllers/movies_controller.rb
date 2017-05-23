@@ -10,14 +10,18 @@ class MoviesController < ApplicationController
                 @movies1 = Array.new
                 @movies2 = Array.new
 
-                @seen_movies.each do |seen_movie|
-                    @movie = Movie.find(seen_movie.movie_id)
-                    @movies1 << @movie
+                if !@seen_movies.empty?
+                    @seen_movies.each do |seen_movie|
+                        @movie = Movie.find(seen_movie.movie_id)
+                        @movies1 << @movie
+                    end
                 end
 
-                @wished_movies.each do |wished_movie|
-                    @movie = Movie.find(wished_movie.movie_id)
-                    @movies2 << @movie
+                if !@wished_movies.empty?
+                    @wished_movies.each do |wished_movie|
+                        @movie = Movie.find(wished_movie.movie_id)
+                        @movies2 << @movie
+                    end
                 end
 
                 @movies = @movies1 | @movies2
