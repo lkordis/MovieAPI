@@ -94,7 +94,7 @@ class SeenMoviesController < ApplicationController
         respond_to do |format|
             if logged_in?
                 @user = current_user
-                @seen_movies = SeenMovie.find(movie_id: params[:id], user_id: @user.id)
+                @seen_movies = SeenMovie.where(movie_id: params[:id], user_id: @user.id).first
                 @seen_movies.destroy
                 format.json { head :no_content }
             else

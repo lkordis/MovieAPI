@@ -75,7 +75,12 @@ class UsersController < ApplicationController
         @user = current_user
         @prefix = params[:query]
 
-        @users = User.where("lower(title) like ?","#{@prefix.downcase}%")
+        @usersName = User.where("lower(name) like ?","#{@prefix.downcase}%")
+        @usersEmail = User.where("lower(email) like ?","#{@prefix.downcase}%")
+
+        @users = @usersName | @usersEmail
+
+        format.json {render json: @users, status: :ok}
       end
     end
   end
