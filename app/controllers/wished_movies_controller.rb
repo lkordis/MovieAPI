@@ -52,7 +52,7 @@ class WishedMoviesController < ApplicationController
                             @lastName = @nameArray[1]
                         end
 
-                        @cast = Cast.find_or_create_by(id: actor['id'], name: @name, lastName: @lastName)
+                        @cast = Cast.find_or_create_by(id: actor['id'], name: @name, last_name: @lastName)
                         Credit.create(movie_id: @movie.id, cast_id: @cast.id)
                     end
                 end
