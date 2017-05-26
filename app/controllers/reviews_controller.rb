@@ -1,6 +1,6 @@
 class ReviewsController < ApplicationController
   before_action :set_review, only: [:show, :edit, :update, :destroy]
-  before_action :authenticate_request, only: [:create, :update, :destroy, :index]
+  before_action :authenticate_request, only: [:create, :update, :destroy, :index, :users_reviews]
 
   # GET /reviews
   # GET /reviews.json
