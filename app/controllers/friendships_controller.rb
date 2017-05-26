@@ -35,16 +35,19 @@ class FriendshipsController < ApplicationController
     def recommend
         respond_to do |format|
             if logged_in?
-                @user = current_user
-                @my_movies = user_movies(@user.id)
+                @curr_user = current_user
+                @my_movies = user_movies(@curr_user.id)
 
                 @users = User.all
-                @recommended = Array.new
+                @recommended = Set.new
 
                 @users.each do |user|
                     @common_movies = user_movies(user.id) & @my_movies
-                    if @common_movies.length > 3 && @recommended.length < 10 && user != @user
-                        @recommended << user
+                    if @common_movies.length >= 3 && @recommended.length < 10 && user != @curr_user
+                        @friends = filter_friends
+                        unless @friends.any? {|f| f.id == user.id }
+                            @recommended << user
+                        end
                     end
                 end
 
@@ -84,26 +87,24 @@ class FriendshipsController < ApplicationController
             params.permit(:user_id)
         end
 
-        def filter_friends(user_id)
-            @friendships1 = Friendship.where(userId1_id: user_id)
-            @friendships2 = Friendship.where(userId2_id: user_id)
+        def filter_friends
+            @user = current_user
+            @friendships1 = Friendship.where(userId1_id: @user.id)
+            @friendships2 = Friendship.where(userId2_id: @user.id)
                 
-            @users1 = Array.new
-            @users2 = Array.new
+            @usersFriends = Set.new
 
             @friendships1.each do |friendship|
                 @u = User.find(friendship.userId2_id)
-                @users1 << @u
+                @usersFriends << @u
             end
 
             @friendships2.each do |friendship|
                 @u = User.find(friendship.userId1_id)
-                @users2 << @u
+                @usersFriends << @u
             end                
 
-            @users = @users1 | @users2
-
-            return @users
+            return @usersFriends
         end
 
         def user_movies(user_id)

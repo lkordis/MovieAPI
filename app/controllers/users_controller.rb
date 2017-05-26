@@ -68,6 +68,18 @@ class UsersController < ApplicationController
     end
   end
 
+  #GET /search/users.json
+  def search
+    respond_to do |format|
+      if logged_in?
+        @user = current_user
+        @prefix = params[:query]
+
+        @users = User.where("lower(title) like ?","#{@prefix.downcase}%")
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user

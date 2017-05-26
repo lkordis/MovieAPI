@@ -88,6 +88,18 @@ class WishedMoviesController < ApplicationController
         end
     end
 
+    def destroy
+        respond_to do |format|
+            if logged_in?
+                @seen_movies = WishedMovie.find(movie_id: params[:id], user_id: @user.id)
+                @seen_movies.destroy
+                format.json { head :no_content }
+            else
+                format.json { render json: nil, status: :unprocessable_entity }
+            end
+        end
+    end
+
     private
         def wished_movies_params
             params.permit(:title, :id, :poster_path)

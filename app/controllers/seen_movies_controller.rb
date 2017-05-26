@@ -89,6 +89,19 @@ class SeenMoviesController < ApplicationController
             end
         end
     end
+
+    def destroy
+        respond_to do |format|
+            if logged_in?
+                @user = current_user
+                @seen_movies = SeenMovie.find(movie_id: params[:id], user_id: @user.id)
+                @seen_movies.destroy
+                format.json { head :no_content }
+            else
+                format.json { render json: nil, status: :unprocessable_entity }
+            end
+        end
+    end
     
 
     private
