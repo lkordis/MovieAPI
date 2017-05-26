@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   resources :comments
 
   get '/login',   to: 'sessions#new'
+  get '/user_reviews', to: 'reviews#users_reviews'
 
   get '/seen_movies', to: 'seen_movies#index'
   post '/seen_movies', to: 'seen_movies#create'

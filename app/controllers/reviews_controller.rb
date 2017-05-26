@@ -38,6 +38,16 @@ class ReviewsController < ApplicationController
     end
   end
 
+  # GET /user_reviews.json
+  def users_reviews
+    @user = current_user
+    @reviews = Review.where(user_id: @user.id)
+
+    respond_to do |format|
+      format.json { render json: @reviews }
+    end
+  end
+
   # GET /reviews/1
   # GET /reviews/1.json
   def show
