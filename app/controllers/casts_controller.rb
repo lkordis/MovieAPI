@@ -20,7 +20,7 @@ class CastsController < ApplicationController
                     @hash = Hash.new
                     @hash[:id] = cast.id
                     @hash[:name] = cast.name
-                    @hash[:lastName] = cast.lastName
+                    @hash[:lastName] = cast.last_name
 
                     @user_movies = Set.new
 
