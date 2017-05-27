@@ -90,7 +90,7 @@ class ReviewsController < ApplicationController
   # PATCH/PUT /reviews/1.json
   def update
     respond_to do |format|
-      if @review.update(review_params)
+      if @review.update(text: params[:text])
         format.json { render json: @review }
       else
         format.json { render json: @review.errors, status: :unprocessable_entity }
