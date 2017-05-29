@@ -29,5 +29,6 @@ Rails.application.routes.draw do
   delete '/followers', to: 'friendships#destroy'
 
   get '/search/people', to: 'casts#search'
+  get '/search/users', to: 'users#search'
 
 end
