@@ -88,6 +88,20 @@ class WishedMoviesController < ApplicationController
         end
     end
 
+    def show
+        respond_to do |format|
+            @wished_movies = WishedMovie.where(user_id: params[:id])
+            @movies = Array.new
+
+            @wished_movies.each do |wished_movie|
+                @movie = Movie.find(wished_movie.movie_id)
+                @movies << @movie
+            end
+
+            format.json { render json: @movies }
+        end
+    end
+
     def destroy
         respond_to do |format|
             if logged_in?

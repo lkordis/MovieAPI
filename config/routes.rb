@@ -11,11 +11,13 @@ Rails.application.routes.draw do
   post '/seen_movies', to: 'seen_movies#create'
   delete '/seen_movies', to: 'seen_movies#destroy'
   get '/search/seen_movies', to: 'seen_movies#search'
+  get '/show/seen_movies', to: 'seen_movies#show'
 
   get '/wished_movies', to: 'wished_movies#index'
   post '/wished_movies', to: 'wished_movies#create'
   delete '/wished_movies', to: 'wished_movies#destroy'
   get '/search/wished_movies', to: 'wished_movies#search'
+  get '/show/wished_movies', to: 'wished_movies#show'
 
   post '/login', to: 'authentication#authenticate'
 

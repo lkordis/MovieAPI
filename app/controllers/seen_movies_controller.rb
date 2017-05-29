@@ -23,6 +23,20 @@ class SeenMoviesController < ApplicationController
         end
     end
 
+    def show
+        respond_to do |format|
+            @seen_movies = SeenMovie.where(user_id: params[:id])
+            @movies = Array.new
+
+            @seen_movies.each do |seen_movie|
+                @movie = Movie.find(seen_movie.movie_id)
+                @movies << @movie
+            end
+
+            format.json { render json: @movies }
+        end
+    end
+
     def create
         respond_to do |format|
             if logged_in?
