@@ -54,7 +54,7 @@ class WishedMoviesController < ApplicationController
                             @lastName = @nameArray[1]
                         end
 
-                        if @actor['profile_path']
+                        if actor['profile_path']
                             @profile_path = @actor['profile_path']
                         end
 
