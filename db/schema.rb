@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170530145708) do
+ActiveRecord::Schema.define(version: 20170530171508) do
 
   create_table "casts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -46,21 +46,6 @@ ActiveRecord::Schema.define(version: 20170530145708) do
     t.datetime "updated_at", null: false
     t.index ["userId1_id"], name: "index_friendships_on_userId1_id", using: :btree
     t.index ["userId2_id"], name: "index_friendships_on_userId2_id", using: :btree
-  end
-
-  create_table "genres", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-  end
-
-  create_table "movie_genres", primary_key: ["genre_id", "movie_id"], force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.integer  "movie_id",   null: false
-    t.integer  "genre_id",   null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["genre_id"], name: "index_movie_genres_on_genre_id", using: :btree
-    t.index ["movie_id"], name: "index_movie_genres_on_movie_id", using: :btree
   end
 
   create_table "movies", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -126,8 +111,6 @@ ActiveRecord::Schema.define(version: 20170530145708) do
   add_foreign_key "credits", "movies"
   add_foreign_key "friendships", "users", column: "userId1_id"
   add_foreign_key "friendships", "users", column: "userId2_id"
-  add_foreign_key "movie_genres", "genres"
-  add_foreign_key "movie_genres", "movies"
   add_foreign_key "ratings", "movies"
   add_foreign_key "ratings", "users"
   add_foreign_key "reviews", "movies"

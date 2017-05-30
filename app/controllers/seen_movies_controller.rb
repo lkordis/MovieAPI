@@ -60,9 +60,9 @@ class SeenMoviesController < ApplicationController
                         @nameArray = actor['name'].split(" ")
                         @name = @nameArray[0]
                         @lastName = ""
-                        @profile_path = ""
-                        
-                        if @nameArray.length > 3
+                        @profile_path = nil
+
+                        if @nameArray.length >= 3
                             @name += " " + @nameArray[1]
                             @lastName = @nameArray[2]
                         else
