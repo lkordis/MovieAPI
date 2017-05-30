@@ -1,4 +1,4 @@
-workers Integer(ENV['WEB_CONCURRENCY'] || 0) #Should be 2 in production env
+workers Integer(ENV['WEB_CONCURRENCY'] || 2) #Should be 2 in production env
 threads_count = Integer(ENV['RAILS_MAX_THREADS'] || 5)
 threads threads_count, threads_count
 

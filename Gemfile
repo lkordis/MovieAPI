@@ -36,6 +36,7 @@ gem 'composite_primary_keys'
 gem 'jwt'
 gem 'simple_command'
 gem 'themoviedb'
+gem 'foreman', '~> 0.82.0'
 # gem 'paperclip', '~> 5.0.0'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
