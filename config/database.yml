@@ -91,12 +91,12 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  adapter: postgresql
-  encoding: unicode
+  adapter: mysql
+  encoding: utf8
   # For details on connection pooling, see rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
-
-  database: proba_production
-  username: proba
-  password: <%= ENV['PROBA_DATABASE_PASSWORD'] %>
+  url: <%= ENV['DATABASE_URL'] %>
+  database: zavrsni_rad_production
+  username: zavrsni_rad
+  password: <%= ENV['ZAVRSNI_RAD_DATABASE_PASSWORD'] %>
