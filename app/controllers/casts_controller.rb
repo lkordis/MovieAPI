@@ -21,6 +21,7 @@ class CastsController < ApplicationController
                     @hash[:id] = cast.id
                     @hash[:name] = cast.name
                     @hash[:lastName] = cast.last_name
+                    @hash[:profile_path] = cast.profile_path
 
                     @user_movies = Set.new
 

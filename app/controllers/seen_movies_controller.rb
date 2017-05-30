@@ -53,14 +53,15 @@ class SeenMoviesController < ApplicationController
                 end
 
                 @credits = Tmdb::Movie.credits(@movie.id)
-                @actors = @credits['cast']
+                @actors = @credits['cast'] | @credits['crew'][0..10]
 
                 if !Credit.exists?(movie_id: @movie.id)
                     @actors.each do |actor|
                         @nameArray = actor['name'].split(" ")
                         @name = @nameArray[0]
                         @lastName = ""
-
+                        @profile_path = ""
+                        
                         if @nameArray.length > 3
                             @name += " " + @nameArray[1]
                             @lastName = @nameArray[2]
@@ -68,7 +69,11 @@ class SeenMoviesController < ApplicationController
                             @lastName = @nameArray[1]
                         end
 
-                        @cast = Cast.find_or_create_by(id: actor['id'], name: @name, last_name: @lastName)
+                        if actor['profile_path']
+                            @profile_path = actor['profile_path']
+                        end
+
+                        @cast = Cast.find_or_create_by(id: actor['id'], name: @name, last_name: @lastName, profile_path: @profile_path)
                         Credit.create(movie_id: @movie.id, cast_id: @cast.id)
                     end
                 end
