@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   get '/login',   to: 'sessions#new'
   get '/user_reviews', to: 'reviews#users_reviews'
+  get '/get_reviews', to: 'reviews#get_reviews'
 
   get '/seen_movies', to: 'seen_movies#index'
   post '/seen_movies', to: 'seen_movies#create'

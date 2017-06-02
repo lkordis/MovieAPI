@@ -29,6 +29,15 @@ class ReviewsController < ApplicationController
     end
   end
 
+  #GET /get_reviews.json
+  def get_reviews
+    @reviews = Review.where(user_id: params[:user_id])
+
+    respond_to do |format|
+      format.json { render json: @reviews }
+    end
+  end
+
   # GET /user_reviews.json
   def users_reviews
     @user = current_user
