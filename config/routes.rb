@@ -23,7 +23,8 @@ Rails.application.routes.draw do
 
   get '/user_movies', to: 'movies#user_movies'
 
-  get '/followers', to: 'friendships#index'
+  get '/followers', to: 'friendships#followers'
+  get '/following', to: 'friendships#following'
   get '/recommend_followers', to: 'friendships#recommend'
   post '/followers', to: 'friendships#create'
   delete '/followers', to: 'friendships#destroy'

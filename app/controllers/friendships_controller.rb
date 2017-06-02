@@ -1,28 +1,19 @@
 class FriendshipsController < ApplicationController
     skip_before_filter :verify_authenticity_token
 
-    def index
+    def followers
         respond_to do |format|
             if logged_in?
                 @user = current_user
             
-                @friendships1 = Friendship.where(userId1_id: @user.id)
-                @friendships2 = Friendship.where(userId2_id: @user.id)
+                @friendships = Friendship.where(userId2_id: @user.id)
                 
-                @users1 = Array.new
-                @users2 = Array.new
+                @users = Set.new
 
-                @friendships1.each do |friendship|
-                    @u = User.find(friendship.userId2_id)
-                    @users1 << @u
-                end
-
-                @friendships2.each do |friendship|
+                @friendships.each do |friendship|
                     @u = User.find(friendship.userId1_id)
-                    @users2 << @u
+                    @users << @u
                 end                
-
-                @users = @users1 | @users2                
 
                 format.json { render json: @users }
             else
@@ -31,6 +22,26 @@ class FriendshipsController < ApplicationController
         end
     end
 
+    def following
+        respond_to do |format|
+            if logged_in?
+                @user = current_user
+            
+                @friendships = Friendship.where(userId1_id: @user.id)
+                
+                @users = Set.new
+
+                @friendships.each do |friendship|
+                    @u = User.find(friendship.userId2_id)
+                    @users << @u
+                end            
+
+                format.json { render json: @users }
+            else
+                format.json { render json: nil, status: :unprocessable_entity }
+            end
+        end
+    end
 
     def recommend
         respond_to do |format|
