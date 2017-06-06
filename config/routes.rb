@@ -3,10 +3,13 @@ Rails.application.routes.draw do
   resources :users
   resources :reviews
   resources :comments
+  resources :ratings
 
   get '/login',   to: 'sessions#new'
   get '/user_reviews', to: 'reviews#users_reviews'
   get '/get_reviews', to: 'reviews#get_reviews'
+  get '/movie_rating', to: 'ratings#movie_rating'
+  get '/user_rating', to: 'ratings#user_rating'
 
   get '/seen_movies', to: 'seen_movies#index'
   post '/seen_movies', to: 'seen_movies#create'

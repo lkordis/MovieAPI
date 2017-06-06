@@ -1,5 +1,6 @@
 class RatingsController < ApplicationController
   before_action :set_rating, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_request
 
   # GET /ratings
   # GET /ratings.json
@@ -24,14 +25,43 @@ class RatingsController < ApplicationController
   # POST /ratings
   # POST /ratings.json
   def create
-    @rating = Rating.new(rating_params)
-
     respond_to do |format|
-      if @rating.save
-        format.html { redirect_to @rating, notice: 'Rating was successfully created.' }
-        format.json { render :show, status: :created, location: @rating }
+      if logged_in?
+        @user = current_user
+        @rating = Rating.new(user_id: @user.id, movie_id: params[:movie_id], rating: params[:rating])
+
+        if @rating.save
+          format.json { render json: @rating }
+        else
+          format.json { render json: @rating.errors, status: :unprocessable_entity }
+        end
+      else 
+        format.json { head :no_content }
+      end
+    end
+  end
+
+  def movie_rating
+    @ratings = Rating.where(movie_id: params[:movie_id])
+    @result = 0
+    @ratings.each do |rating|
+      puts rating.rating
+      @result += rating.rating
+    end
+    @result = @result / @ratings.length
+    respond_to do |format|
+      format.json { render json: @result }
+    end
+  end
+
+  def user_rating
+    respond_to do |format|
+      if logged_in?
+        @user = current_user
+        @rating = Rating.where(user_id: @user.id, movie_id: params[:movie_id]).first
+
+        format.json { render json: @rating }
       else
-        format.html { render :new }
         format.json { render json: @rating.errors, status: :unprocessable_entity }
       end
     end
@@ -41,11 +71,9 @@ class RatingsController < ApplicationController
   # PATCH/PUT /ratings/1.json
   def update
     respond_to do |format|
-      if @rating.update(rating_params)
-        format.html { redirect_to @rating, notice: 'Rating was successfully updated.' }
+      if @rating.update(user_id: @user.id, movie_id: params[:movie_id], rating: params[:rating])
         format.json { render :show, status: :ok, location: @rating }
       else
-        format.html { render :edit }
         format.json { render json: @rating.errors, status: :unprocessable_entity }
       end
     end
@@ -56,7 +84,6 @@ class RatingsController < ApplicationController
   def destroy
     @rating.destroy
     respond_to do |format|
-      format.html { redirect_to ratings_url, notice: 'Rating was successfully destroyed.' }
       format.json { head :no_content }
     end
   end
