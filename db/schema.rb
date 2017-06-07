@@ -10,7 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170530171508) do
+ActiveRecord::Schema.define(version: 20170607063238) do
+
+  create_table "cast_roles", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "role"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "casts", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "name"
@@ -33,9 +39,11 @@ ActiveRecord::Schema.define(version: 20170530171508) do
   create_table "credits", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.integer  "movie_id"
     t.integer  "cast_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.integer  "cast_roles_id"
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
     t.index ["cast_id"], name: "index_credits_on_cast_id", using: :btree
+    t.index ["cast_roles_id"], name: "index_credits_on_cast_roles_id", using: :btree
     t.index ["movie_id"], name: "index_credits_on_movie_id", using: :btree
   end
 
@@ -107,6 +115,7 @@ ActiveRecord::Schema.define(version: 20170530171508) do
 
   add_foreign_key "comments", "reviews"
   add_foreign_key "comments", "users"
+  add_foreign_key "credits", "cast_roles", column: "cast_roles_id"
   add_foreign_key "credits", "casts"
   add_foreign_key "credits", "movies"
   add_foreign_key "friendships", "users", column: "userId1_id"

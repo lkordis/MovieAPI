@@ -38,10 +38,36 @@ class WishedMoviesController < ApplicationController
                 end
 
                 @credits = Tmdb::Movie.credits(@movie.id)
-                @actors = @credits['cast'] | @credits['crew'][0..10]
+               @persons = Set.new
+                
+                @credits['cast'].each do |actor|
+                    @role = CastRole.where(role: 'Actor').first
+                    @entry = Hash.new
+                    @entry['name'] = actor['name']
+                    @entry['id'] = actor['id']
+                    @entry['profile_path'] = actor['profile_path']
+
+                    if @role
+                        @entry['role_id'] = @role.id
+                        @persons << @entry
+                    end
+                end
+
+                @credits['crew'].each do |actor|
+                    @role = CastRole.where(role: actor['job']).first
+                    @entry = Hash.new
+                    @entry['name'] = actor['name']
+                    @entry['id'] = actor['id']
+                    @entry['profile_path'] = actor['profile_path']
+
+                    if @role
+                        @entry['role_id'] = @role.id
+                        @persons << @entry
+                    end
+                end
 
                 if !Credit.exists?(movie_id: @movie.id)
-                    @actors.each do |actor|
+                    @persons.each do |actor|
                         @nameArray = actor['name'].split(" ")
                         @name = @nameArray[0]
                         @lastName = ""
@@ -55,11 +81,12 @@ class WishedMoviesController < ApplicationController
                         end
 
                         if actor['profile_path']
-                            @profile_path = @actor['profile_path']
+                            @profile_path = actor['profile_path']
                         end
 
                         @cast = Cast.find_or_create_by(id: actor['id'], name: @name, last_name: @lastName, profile_path: @profile_path)
-                        Credit.create(movie_id: @movie.id, cast_id: @cast.id)
+
+                        Credit.create(movie_id: @movie.id, cast_id: @cast.id, cast_roles_id: actor['role_id'])
                     end
                 end
                 

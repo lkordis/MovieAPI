@@ -14,9 +14,10 @@ class CastsController < ApplicationController
                 @wished_movies = WishedMovie.where(user_id: @user.id)
 
                 @casts = @names | @lastNames
-                @movies = Set.new
 
                 @casts.each do |cast|
+                    @movies = Set.new
+                    @jobs = Set.new
                     @hash = Hash.new
                     @hash[:id] = cast.id
                     @hash[:name] = cast.name
@@ -28,7 +29,9 @@ class CastsController < ApplicationController
                     @credits = Credit.where(cast_id: cast.id)
                     @credits.each do |credit|
                         @movie = Movie.find(credit.movie_id)
+                        @job = CastRole.find(credit.cast_roles_id)
                         @movies << @movie
+                        @jobs << @job.role
                     end
 
                     if !@seen_movies.empty?
@@ -50,6 +53,7 @@ class CastsController < ApplicationController
                     end
 
                     @hash[:known_for] = @user_movies
+                    @hash[:jobs] = @jobs
                     @response << @hash
                 end
 
