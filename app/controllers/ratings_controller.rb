@@ -28,7 +28,8 @@ class RatingsController < ApplicationController
     respond_to do |format|
       if logged_in?
         @user = current_user
-        @rating = Rating.new(user_id: @user.id, movie_id: params[:movie_id], rating: params[:rating])
+        @movie = Movie.find_or_create_by(id: params[:movie_id], title: params[:title])
+        @rating = Rating.new(user_id: @user.id, movie_id: @movie.id, rating: params[:rating])
 
         if @rating.save
           format.json { render json: @rating }
