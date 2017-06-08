@@ -48,14 +48,18 @@ class RatingsController < ApplicationController
       puts rating.rating
       @result += rating.rating
     end
-    unless @ratings.length == 0 {@result = @result / @ratings.length}
     respond_to do |format|
-      if logged_in?
-        @user = current_user
-        @rating = Rating.where(user_id: @user.id, movie_id: params[:movie_id]).first
-        format.json { render json: {rating: @result, user_rating: @rating} }
+      if @ratings.length == 0
+        @result = @result / @ratings.length
+          if logged_in?
+            @user = current_user
+            @rating = Rating.where(user_id: @user.id, movie_id: params[:movie_id]).first
+            format.json { render json: {rating: @result, user_rating: @rating} }
+          else
+            format.json { render json: {rating: @result} }
+          end
       else
-        format.json { render json: {rating: @result} }
+        format.json { head :no_content }
       end
     end
   end
