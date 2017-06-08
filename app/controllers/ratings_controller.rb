@@ -51,7 +51,7 @@ class RatingsController < ApplicationController
     end
     respond_to do |format|
       if @ratings.length > 0
-        @result = @result / @ratings.length
+        @result = @result /. @ratings.length
           if logged_in?
             @user = current_user
             @rating = Rating.where(user_id: @user.id, movie_id: params[:movie_id]).first
