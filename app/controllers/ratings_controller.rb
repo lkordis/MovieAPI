@@ -81,12 +81,17 @@ class RatingsController < ApplicationController
   # PATCH/PUT /ratings/1
   # PATCH/PUT /ratings/1.json
   def update
-    respond_to do |format|
-      if @rating.update(user_id: @user.id, movie_id: params[:movie_id], rating: params[:rating])
-        format.json { render :show, status: :ok, location: @rating }
-      else
-        format.json { render json: @rating.errors, status: :unprocessable_entity }
+    if logged_in?
+      @user = current_user
+      respond_to do |format|
+        if @rating.update(user_id: @user.id, movie_id: params[:movie_id], rating: params[:rating])
+          format.json { render json: @rating }
+        else
+          format.json { render json: @rating.errors, status: :unprocessable_entity }
+        end
       end
+    else
+      format.json { head :no_content }
     end
   end
 
