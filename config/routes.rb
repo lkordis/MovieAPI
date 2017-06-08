@@ -3,11 +3,15 @@ Rails.application.routes.draw do
   resources :users
   resources :reviews
   resources :comments
-  resources :ratings
 
   get '/login',   to: 'sessions#new'
   get '/user_reviews', to: 'reviews#users_reviews'
   get '/get_reviews', to: 'reviews#get_reviews'
+
+  post '/ratings', to: 'ratings#create'
+  get '/ratings', to: 'ratings#index'
+  put '/ratings', to: 'ratings#update'
+  delete '/ratings', to: 'ratings#destroy'
   get '/movie_rating', to: 'ratings#movie_rating'
   get '/user_rating', to: 'ratings#user_rating'
 
