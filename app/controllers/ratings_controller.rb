@@ -49,7 +49,7 @@ class RatingsController < ApplicationController
       @result += rating.rating
     end
     respond_to do |format|
-      if @ratings.length == 0
+      if @ratings.length > 0
         @result = @result / @ratings.length
           if logged_in?
             @user = current_user
